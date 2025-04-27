@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner</title>
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+</head>
+<body>
+    <h1>Scan QR Code</h1>
+    <div id="reader" style="width: 100%; height: 400px;"></div>
+    <p id="result">Scan a QR code to see the result here.</p>
+
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            // عرض النتيجة بعد المسح
+            document.getElementById('result').innerText = decodedText;
+        }
+
+        function onScanError(errorMessage) {
+            // هذا للـ error لو حصل شيء
+            console.log(errorMessage);
+        }
+
+        // يبدأ الـ QR Scanner
+        const html5QrCode = new Html5Qrcode("reader");
+        
+        // محاولة البدء بمسح الـ QR
+        html5QrCode.start({ facingMode: "environment" }, {
+            fps: 10, //عدد الإطارات في الثانية
+            qrbox: 250
+        }, onScanSuccess, onScanError).catch(err => {
+            console.log("Error starting the QR scanner: ", err);
+            alert("There was an error starting the scanner. Please check camera permissions and try again.");
+        });
+    </script>
+</body>
+</html>
